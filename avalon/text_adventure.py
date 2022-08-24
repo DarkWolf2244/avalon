@@ -1,4 +1,6 @@
 import avalon.rooms as rooms
+import avalon.actions as actions
+
 from rich import print as r_print
 
 
@@ -12,6 +14,7 @@ class TextAdventure:
         :param game_description: Optional. The description of the game.
         """
 
+        self.current_room = None
         self.game_name = game_name
         self.author_name = author_name
         self.game_description = None
@@ -37,12 +40,26 @@ class TextAdventure:
             exit(1)
 
         r_print(
-            f"""[bold cyan]{self.game_name}[/bold cyan]\nBy [bold green]{self.author_name}[/bold green]\n{'-' * len(self.game_name)}""")
+            f"""[bold cyan]{self.game_name}[/bold cyan]\nBy [bold green]{self.author_name}[/bold green]\n{'-' * len(self.game_name)}"""
+        )
+
         print("")
         r_print(f"[bold cyan]{self.initial_room.name}")
-        while True:
-            print("")
-            print(self.initial_room.description())
 
+        self.current_room = self.initial_room
+
+        print("")
+        print(self.current_room.description())
+
+        while True:
             cmd = input("\n> ")
-            print("\n")
+
+            for action in actions.all_actions:
+                act = action()
+
+                if act.validate(cmd):
+                    act.execute(self)
+                    break
+
+            else:
+                print(f"I don't understand what you mean by '{cmd}'.")
