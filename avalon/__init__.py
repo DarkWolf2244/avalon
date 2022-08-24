@@ -1,1 +1,1 @@
-from avalon.main import *
+from avalon.text_adventure import *
