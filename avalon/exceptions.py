@@ -1,0 +1,2 @@
+class NoInitRoom(Exception):
+    pass

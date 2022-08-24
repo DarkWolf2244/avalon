@@ -1,3 +1,7 @@
+import avalon.rooms as rooms
+from rich import print as r_print
+
+
 class TextAdventure:
     def __init__(self, game_name: str, author_name: str, game_description: str = None):
         """
@@ -11,3 +15,34 @@ class TextAdventure:
         self.game_name = game_name
         self.author_name = author_name
         self.game_description = None
+
+        self.initial_room: rooms.Room | None = None
+
+    def check_if_game_valid(self):
+        if self.initial_room is None:
+            r_print(
+                "[bold red]ERROR: [/bold red][red]The game does not have an initial room set. Please set the initial "
+                "room using [i]game.set_initial_room()[/i].")
+
+            return False
+
+        return True
+
+    def set_initial_room(self, room: rooms.Room):
+        self.initial_room = room
+
+    def run(self):
+        if not self.check_if_game_valid():
+            print("Exited game execution - please fix any errors displayed above.")
+            exit(1)
+
+        r_print(
+            f"""[bold cyan]{self.game_name}[/bold cyan]\nBy [bold green]{self.author_name}[/bold green]\n{'-' * len(self.game_name)}""")
+        print("")
+        r_print(f"[bold cyan]{self.initial_room.name}")
+        while True:
+            print("")
+            print(self.initial_room.description())
+
+            cmd = input("\n> ")
+            print("\n")

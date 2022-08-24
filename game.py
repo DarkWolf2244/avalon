@@ -1,4 +1,14 @@
-from avalon import TextAdventure
+from avalon import TextAdventure, Room, run_game
+
+
+class StudyRoom(Room):
+    def __init__(self):
+        super().__init__(
+            "Study Room"
+        )
+
+        self.description_string = "You're standing in a lavish study room. An ornate rosewood desk sits in the " \
+                                  "corner, and the only exit seems to be a steel door to the west. "
 
 
 class TheBookshelf(TextAdventure):
@@ -8,5 +18,8 @@ class TheBookshelf(TextAdventure):
             "DarkWolf"
         )
 
+        self.set_initial_room(StudyRoom())
 
-TheBookshelf()
+
+game = TheBookshelf()
+run_game(game)
