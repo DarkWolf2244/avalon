@@ -16,11 +16,23 @@ class Action:
 
 class LookAction(Action):
     def __init__(self):
-        super().__init__(r"^(look|l)")
+        super().__init__(r"^(look|l)((?!at).)*$")
 
     def execute(self, context):
-        print(context.current_room.description())
+        print(context.current_room.final_description())
         return True
+
+
+class LookAtAction(Action):
+    def __init__(self):
+        super().__init__(r"^(look at|examine|x|check) (.+)")
+
+    def execute(self, context):
+        match = self.regex.match(context.cmd)
+        g_object_name = match.groups()[1]
+        g_object = context.get_object_by_name(g_object_name)
+
+        print(g_object.description())
 
 
 class JumpAction(Action):
@@ -32,4 +44,4 @@ class JumpAction(Action):
         return True
 
 
-all_actions = [LookAction, JumpAction]
+all_actions = [LookAction, LookAtAction, JumpAction]

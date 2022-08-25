@@ -1,4 +1,4 @@
-from avalon import TextAdventure, Room, run_game
+from avalon import TextAdventure, Room, GameObject, run_game
 
 
 class StudyRoom(Room):
@@ -20,9 +20,20 @@ class StudyRoom(Room):
             self.desc_counter = 0
         else:
             self.desc_counter = 1
-            
+
         return all_descs[self.desc_counter]
 
+
+class Desk(GameObject):
+    def __init__(self):
+        super().__init__("desk")
+
+    def description(self):
+        return "An ornate desk made of rosewood. It has no drawers, just a smooth surface. Above it is a bookshelf, " \
+               "and on it is a rough leather book. "
+
+    def inline_description(self):
+        return "There's an ornate rosewood desk in the corner."
 
 
 class TheBookshelf(TextAdventure):
@@ -33,6 +44,7 @@ class TheBookshelf(TextAdventure):
         )
 
         self.set_initial_room(StudyRoom())
+        self.initial_room.add_objects(Desk())
 
 
 game = TheBookshelf()
