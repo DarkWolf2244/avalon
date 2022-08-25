@@ -44,4 +44,25 @@ class JumpAction(Action):
         return True
 
 
-all_actions = [LookAction, LookAtAction, JumpAction]
+class AttackAction(Action):
+    def __init__(self):
+        super().__init__(r"(fight|attack|kill) (.+)")
+
+    def execute(self, context):
+        match = self.regex.match(context.cmd)
+        g_object_name = match.groups()[1]
+        g_object = context.get_object_by_name(g_object_name)
+
+        if hasattr(g_object, "OnAction_Attack"):
+            g_object.OnAction_Attack(context)
+
+        elif g_object_name in ["me", "self", "myself"]:
+            print("Why don't you seek some self-harm therapists?")
+        elif g_object is None:
+            print(f"I don't think '{g_object_name}' is something that you can attack.")
+
+        else:
+            print("Tantrums solve nothing.")
+
+
+all_actions = [LookAction, LookAtAction, JumpAction, AttackAction]

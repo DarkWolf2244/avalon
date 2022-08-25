@@ -5,7 +5,6 @@ import avalon.objects as objects
 from rich import print as r_print
 
 
-
 class TextAdventure:
     def __init__(self, game_name: str, author_name: str, game_description: str = None):
         """
@@ -41,6 +40,7 @@ class TextAdventure:
         self.rooms.remove(self.initial_room)
         self.initial_room = room
         self.rooms.append(self.initial_room)
+
     def get_object_by_name(self, name: str) -> objects.GameObject:
         for room in self.rooms:
             for g_object in room.objects:
