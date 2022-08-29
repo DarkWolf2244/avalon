@@ -24,6 +24,7 @@ class Room:
         desc += self.description()
 
         for g_object in self.objects:
-            desc += "\n\n" + g_object.inline_description()
+            inline_desc = g_object.final_inline_description()
+            desc += "\n\n" + inline_desc if inline_desc else ""
 
         return desc

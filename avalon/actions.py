@@ -32,7 +32,16 @@ class LookAtAction(Action):
         g_object_name = match.groups()[1]
         g_object = context.get_object_by_name(g_object_name)
 
-        print(g_object.description())
+        intent = "examine" if match.groups()[0] == "x" else match.groups()[0]
+        if g_object:
+            final_desc = g_object.final_description()
+
+            if final_desc == "":
+                print(f"'{g_object_name}' doesn't seem to be something you can {intent}.")
+            else:
+                print(g_object.final_description())
+        else:
+            print(f"'{g_object_name}' doesn't seem to be something you can {intent}.")
 
 
 class JumpAction(Action):

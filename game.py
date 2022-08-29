@@ -24,13 +24,26 @@ class StudyRoom(Room):
         return all_descs[self.desc_counter]
 
 
+class Book(GameObject):
+    def __init__(self):
+        super().__init__("book")
+        self.flags['INLINE_DESC_IN_PARENT_DESC'] = False
+
+    def inline_description(self):
+        if game.get_object_by_name("desk").described:
+            return "There's a rough leather book on the desk."
+
+    def description(self):
+        if game.get_object_by_name("desk").described:
+            return "It's a leather-bound book titled 'The Bookshelf'."
 class Desk(GameObject):
     def __init__(self):
         super().__init__("desk")
+        self.add_object(Book())
 
     def description(self):
         return "An ornate desk made of rosewood. It has no drawers, just a smooth surface. Above it is a bookshelf, " \
-               "and on it is a rough leather book. "
+               "and on it is a rough leather book."
 
     def inline_description(self):
         return "There's an ornate rosewood desk in the corner."
