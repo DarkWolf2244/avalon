@@ -74,4 +74,14 @@ class AttackAction(Action):
             print("Tantrums solve nothing.")
 
 
-all_actions = [LookAction, LookAtAction, JumpAction, AttackAction]
+class AgainAction(Action):
+    def __init__(self):
+        super().__init__(r"^again")
+
+    def execute(self, context):
+        l_action, l_cmd = context.commands_executed[-2]
+        context.cmd = l_cmd
+        l_action.execute(context)
+
+
+all_actions = [LookAction, LookAtAction, JumpAction, AttackAction, AgainAction]

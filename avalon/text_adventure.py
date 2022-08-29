@@ -29,6 +29,8 @@ class TextAdventure:
 
         self.cmd = ""
 
+        self.commands_executed = []
+
     def check_if_game_valid(self):
         if self.initial_room is None:
             r_print(
@@ -100,6 +102,7 @@ class TextAdventure:
                 act = action()
 
                 if act.validate(self.cmd):
+                    self.commands_executed.append((act, cmd))
                     act.execute(self)
                     break
 
