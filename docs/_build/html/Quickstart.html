@@ -1,0 +1,181 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Quickstart &#8212; Avalon  documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Class References" href="ClassReferences.html" />
+    <link rel="prev" title="Avalon Docs" href="index.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="quickstart">
+<h1>Quickstart<a class="headerlink" href="#quickstart" title="Permalink to this heading">¶</a></h1>
+<p>Get, set, go. Create a new Python script, and import <code class="docutils literal notranslate"><span class="pre">TextAdventure</span></code>, <code class="docutils literal notranslate"><span class="pre">Room</span></code> and <code class="docutils literal notranslate"><span class="pre">run_game</span></code>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">avalon</span> <span class="kn">import</span> <span class="n">TextAdventure</span><span class="p">,</span> <span class="n">Room</span><span class="p">,</span> <span class="n">run_game</span>
+</pre></div>
+</div>
+<p>Now, to create a text adventure, simply create a class inheriting from <code class="docutils literal notranslate"><span class="pre">TextAdventure</span></code>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">IntroGame</span><span class="p">(</span><span class="n">TextAdventure</span><span class="p">):</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+<p>Within it, invoke the <code class="docutils literal notranslate"><span class="pre">super().__init__</span></code> with the arguments needed to create the game.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">IntroGame</span><span class="p">(</span><span class="n">TextAdventure</span><span class="p">):</span>
+    <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s2">&quot;Intro Game&quot;</span><span class="p">,</span> <span class="s2">&quot;FixYourPosture&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Here’s all the args:</p>
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">avalon.TextAdventure.</span></span><span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">game_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">author_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">game_description</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Create a new text adventure. Ideally, you would create a subclass of this, and pass that to <cite>avalon.run</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>game_name</strong> – The name of the text adventure. (E.g.  “The Bookshelf”)</p></li>
+<li><p><strong>author_name</strong> – The author of the game, probably you. (E.g. “Andrew Plotkin”)</p></li>
+<li><p><strong>game_description</strong> – Optional. The description of the game.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<p>Once you’re done with that, you need to create a new room to start in. This room is called the <strong>inital room</strong>.</p>
+<p>Create a new class inheriting from <code class="docutils literal notranslate"><span class="pre">Room</span></code>. Just like for the game itself, call <code class="docutils literal notranslate"><span class="pre">super().__init__</span></code> with the required
+args.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">IntroRoom</span><span class="p">(</span><span class="n">Room</span><span class="p">):</span>
+    <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s2">&quot;Initial Room&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Here are the args for the <code class="docutils literal notranslate"><span class="pre">Room</span></code> class:</p>
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">avalon.Room.</span></span><span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Base class for a room. You should create a subclass of Room and use that in your game, ideally.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>name</strong> – The name of the room to create.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>All rooms have a <em>description</em>. That’s what displayed when they enter it or type <code class="docutils literal notranslate"><span class="pre">look</span></code>. It’s just a string, but Python
+doesn’t have dynamically-generated strings. We work around that by making these sorts of strings <em>methods</em> rather than
+just variables. But for simplicity, we <em>also</em> allow strings as variables.</p>
+<p>For example, the description for <code class="docutils literal notranslate"><span class="pre">IntroRoom</span></code> could be stored like this:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">IntroRoom</span><span class="p">(</span><span class="n">Room</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s2">&quot;Initial Room&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">description_string</span> <span class="o">=</span> <span class="s2">&quot;This is the initial room. Not much to see here.&quot;</span>
+</pre></div>
+</div>
+<p>… or like this:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">IntroRoom</span><span class="p">(</span><span class="n">Room</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s2">&quot;Initial Room&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">description</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;This is the initial room. Not much to see here.&quot;</span>
+</pre></div>
+</div>
+<p>The beauty of this is that now the description can vary on demand. You can change the description based on whether the player
+ate a doughnut, read a book or stuffed a body in the trunk of a car (no, seriously, that’s a classic plot line).</p>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Avalon</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ClassReferences.html">Class References</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">Avalon Docs</a></li>
+      <li>Next: <a href="ClassReferences.html" title="next chapter">Class References</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2022, DarkWolf.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 5.1.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/Quickstart.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
