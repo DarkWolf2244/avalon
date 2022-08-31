@@ -1,0 +1,8 @@
+docs/_static
+docs/_templates
+docs/quickstart.py
+docs/index.rst
+docs/ClassReferences.rst
+docs/Quickstart.rst
+docs/make.bat
+docs/Makefile

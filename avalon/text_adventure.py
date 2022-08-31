@@ -9,6 +9,9 @@ from rich import print as r_print
 
 
 class TextAdventure:
+    """
+    Class to create a text adventure. Ideally, you would create a subclass of this, and pass that to `avalon.run`.
+    """
     def __init__(self, game_name: str, author_name: str, game_description: str = None):
         """
         Create a new text adventure. Ideally, you would create a subclass of this, and pass that to `avalon.run`.

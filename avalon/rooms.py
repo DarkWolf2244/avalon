@@ -6,6 +6,8 @@ class Room:
     def __init__(self, name: str):
         """
         Base class for a room. You should create a subclass of Room and use that in your game, ideally.
+
+        :param name: The name of the room to create.
         """
         self.name = name
         self.description_string = None
