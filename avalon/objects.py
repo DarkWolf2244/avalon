@@ -1,18 +1,28 @@
 class GameObject:
-    def __init__(self, name: str):
+    def __init__(self, name: str, the_name: str = None):
         self.name = name
         self.description_string = ""
         self.inline_description_string = None
         self.described = False
         self.objects = []
 
+        self.the_name = the_name if the_name else name.lower()
+
         self.flags = {
             'DESC_IN_PARENT_DESC': True,
             'INLINE_DESC_IN_PARENT_DESC': True
         }
 
+        self.parent = None
+
     def add_object(self, g_object):
+        g_object.parent = self
         self.objects.append(g_object)
+
+    def is_of_type(self, extendable):
+        if hasattr(self, extendable.__name__.lower()):
+            return True
+        return False
 
     def description(self):
         pass
@@ -44,7 +54,7 @@ class GameObject:
         return all_objects
 
     def inline_description(self):
-        pass
+        return self.inline_description_string
 
     def final_inline_description(self):
         desc = self.inline_description()

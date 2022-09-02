@@ -7,6 +7,8 @@ import avalon.objects as objects
 
 from rich import print as r_print
 
+from avalon.people import Person
+
 
 class TextAdventure:
     """
@@ -33,6 +35,8 @@ class TextAdventure:
         self.cmd = ""
 
         self.commands_executed = []
+
+        self.player = Person("me")
 
     def check_if_game_valid(self):
         if self.initial_room is None:
@@ -81,6 +85,8 @@ class TextAdventure:
 
         print("")
         print(self.current_room.final_description())
+
+        self.initial_room.add_objects(self.player)
 
         while True:
             cmd = input("\n> ").lower()

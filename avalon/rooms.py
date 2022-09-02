@@ -14,6 +14,9 @@ class Room:
         self.objects: List[objects.GameObject] = []
 
     def add_objects(self, *args):
+        for object in args:
+            object.parent = self
+
         self.objects.extend(args)
 
     def description(self, desc=None):

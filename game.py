@@ -1,5 +1,4 @@
-from avalon import TextAdventure, Room, GameObject, run_game
-
+from avalon import TextAdventure, Room, GameObject, Readable, Surface, run_game
 
 class StudyRoom(Room):
     def __init__(self):
@@ -29,6 +28,8 @@ class Book(GameObject):
         super().__init__("book")
         self.flags['INLINE_DESC_IN_PARENT_DESC'] = False
 
+        self.readable = Readable(content="The book just contains gibberish.")
+
     def inline_description(self):
         if game.get_object_by_name("desk").described:
             return "There's a rough leather book on the desk."
@@ -40,6 +41,7 @@ class Desk(GameObject):
     def __init__(self):
         super().__init__("desk")
         self.add_object(Book())
+        self.surface = Surface()
 
     def description(self):
         return "An ornate desk made of rosewood. It has no drawers, just a smooth surface. Above it is a bookshelf, " \
