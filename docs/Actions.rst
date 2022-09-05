@@ -43,7 +43,16 @@ For example:
             if not d_obj:
                 print(f"It doesn't seem like {d_obj_name} even exists, bud.")
 
-            print(f"YOu plant a good whack on the {d_obj.the_name}.")
+            print(f"You plant a good whack on the {d_obj.the_name}.")
+
+    add_action(DanceAction)
+    add_action(WhackAction)
+
+Now, entering ``whack the table`` (if there's a table) will return
+
+.. code-block::
+
+    You plant a good whack on the table.
 
 ----------------
 List of Actions

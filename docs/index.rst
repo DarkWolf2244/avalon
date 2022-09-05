@@ -45,6 +45,6 @@ Everything you do while playing the game is an action. In this way, it borrows f
 by using **regular expressions** or **regex**. **When a player enters a command, it has to match an action's
 regex syntax.**
 
-For example, an action called DanceAction could use the expression "^dance to (\s+) music".
-Then, when a player enters "dance to hip-hop lo-fi music" (why?) it'll match to ``DanceAction``.
+For example, an action called DanceAction could use the expression ``^dance to (\s+) music``.
+Then, when a player enters ``dance to hip-hop lo-fi music`` (why?) it'll match to ``DanceAction``.
 
