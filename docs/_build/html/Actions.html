@@ -1,0 +1,208 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Actions &#8212; Avalon  documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Extendables - An Alternative to Mix-ins" href="Extendables.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="actions">
+<h1>Actions<a class="headerlink" href="#actions" title="Permalink to this heading">¶</a></h1>
+<p>An <strong>action</strong> is simply a class with special methods and properties that can be applied to the in-game world. Every
+action has a <code class="docutils literal notranslate"><span class="pre">regex</span></code> property and an <code class="docutils literal notranslate"><span class="pre">execute</span></code> method.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">regex</span></code> property is a regular expression (read up on those) that is meant to apply to the whole command that the player
+enters.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">execute</span></code> method is called whenever the action is meant to be run. This contains the action’s code. Avalon passes a <code class="docutils literal notranslate"><span class="pre">context</span></code>
+argument to it, which is just the game class.</p>
+<section id="creating-custom-actions">
+<h2>Creating Custom Actions<a class="headerlink" href="#creating-custom-actions" title="Permalink to this heading">¶</a></h2>
+<p>To create a new action, simply create a subclass of <code class="docutils literal notranslate"><span class="pre">Action</span></code> and give it the required properties. Then pass it to <code class="docutils literal notranslate"><span class="pre">avalon.add_action</span></code>.</p>
+<p>For example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">avalon</span> <span class="kn">import</span> <span class="n">Action</span><span class="p">,</span> <span class="n">add_action</span>
+
+<span class="k">class</span> <span class="nc">DanceAction</span><span class="p">(</span><span class="n">Action</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;^dance$&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;You dance to lo-fi hip-hop beats for the next few hours.&quot;</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">WhackAction</span><span class="p">(</span><span class="n">Action</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;^whack (.+)$&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">context</span><span class="p">):</span>
+        <span class="n">match</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">regex</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">context</span><span class="o">.</span><span class="n">cmd</span><span class="p">)</span>
+
+        <span class="n">d_obj_name</span> <span class="o">=</span> <span class="n">match</span><span class="o">.</span><span class="n">groups</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">d_obj</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">get_action_by_name</span><span class="p">(</span><span class="n">d_obj_name</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">d_obj</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;It doesn&#39;t seem like </span><span class="si">{</span><span class="n">d_obj_name</span><span class="si">}</span><span class="s2"> even exists, bud.&quot;</span><span class="p">)</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;YOu plant a good whack on the </span><span class="si">{</span><span class="n">d_obj</span><span class="o">.</span><span class="n">the_name</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="list-of-actions">
+<h2>List of Actions<a class="headerlink" href="#list-of-actions" title="Permalink to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="avalon.LookAction">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">avalon.</span></span><span class="sig-name descname"><span class="pre">LookAction</span></span><a class="headerlink" href="#avalon.LookAction" title="Permalink to this definition">¶</a></dt>
+<dd><p>Look around the room.</p>
+<p>Regex: <code class="docutils literal notranslate"><span class="pre">^(look|l)((?!at).)*$</span></code></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="avalon.LookAtAction">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">avalon.</span></span><span class="sig-name descname"><span class="pre">LookAtAction</span></span><a class="headerlink" href="#avalon.LookAtAction" title="Permalink to this definition">¶</a></dt>
+<dd><p>Examine or look at an object. Displays its description.</p>
+<p>Regex: <code class="docutils literal notranslate"><span class="pre">(look</span> <span class="pre">at|examine|x|check)</span> <span class="pre">(.+)</span></code></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="avalon.JumpAction">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">avalon.</span></span><span class="sig-name descname"><span class="pre">JumpAction</span></span><a class="headerlink" href="#avalon.JumpAction" title="Permalink to this definition">¶</a></dt>
+<dd><p>Standard jumping procedure. Does nothing except display a message.</p>
+<p>Regex: <code class="docutils literal notranslate"><span class="pre">jump</span></code></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="avalon.AttackAction">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">avalon.</span></span><span class="sig-name descname"><span class="pre">AttackAction</span></span><a class="headerlink" href="#avalon.AttackAction" title="Permalink to this definition">¶</a></dt>
+<dd><p>Attack or fight something/</p>
+<p>Regex: <code class="docutils literal notranslate"><span class="pre">(fight|attack|kill)</span> <span class="pre">(.+)</span></code></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="avalon.AgainAction">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">avalon.</span></span><span class="sig-name descname"><span class="pre">AgainAction</span></span><a class="headerlink" href="#avalon.AgainAction" title="Permalink to this definition">¶</a></dt>
+<dd><p>Repeat the last action.</p>
+<p>Regex: <code class="docutils literal notranslate"><span class="pre">^again</span></code></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="avalon.ReadAction">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">avalon.</span></span><span class="sig-name descname"><span class="pre">ReadAction</span></span><a class="headerlink" href="#avalon.ReadAction" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read an object. Only applies to objects with a Readable extendable.</p>
+<p>Regex: <code class="docutils literal notranslate"><span class="pre">^read</span> <span class="pre">(.+)</span></code></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="avalon.PutOnAction">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">avalon.</span></span><span class="sig-name descname"><span class="pre">PutOnAction</span></span><a class="headerlink" href="#avalon.PutOnAction" title="Permalink to this definition">¶</a></dt>
+<dd><p>Put an object on another object. Only applies if the indirect object has a Surface extendable.</p>
+<p>Regex: <code class="docutils literal notranslate"><span class="pre">^(put|place)</span> <span class="pre">(.+)</span> <span class="pre">(on|on</span> <span class="pre">top</span> <span class="pre">of|upon)</span> <span class="pre">(.+)$</span></code></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="avalon.TakeAction">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">avalon.</span></span><span class="sig-name descname"><span class="pre">TakeAction</span></span><a class="headerlink" href="#avalon.TakeAction" title="Permalink to this definition">¶</a></dt>
+<dd><p>WIP.</p>
+</dd></dl>
+
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Avalon</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="Quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ClassReferences.html">Class References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Extendables.html">Extendables - An Alternative to Mix-ins</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Actions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#creating-custom-actions">Creating Custom Actions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#list-of-actions">List of Actions</a></li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="Extendables.html" title="previous chapter">Extendables - An Alternative to Mix-ins</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2022, DarkWolf.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 5.1.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/Actions.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

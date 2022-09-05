@@ -9,6 +9,8 @@ Avalon Docs
 .. toctree::
    Quickstart
    ClassReferences
+   Extendables
+   Actions
    :maxdepth: 2
 
 
